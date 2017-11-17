@@ -12,12 +12,13 @@ abstract class MovingEntity extends AbstractAnimatedEntity {
     private static final SingleStepPathingStrategy SINGLE_STEP = new SingleStepPathingStrategy();
 
 
-    public MovingEntity(String id, Point position, List<PImage> images, int actionPeriod, int animationPeriod, int repeatCount) {
+    public MovingEntity(String id, Point position, List<PImage> images,
+                        int actionPeriod, int animationPeriod, int repeatCount) {
         super(id, position, images, actionPeriod, animationPeriod, repeatCount);
     }
 
     protected Point nextPosition(WorldModel world, Point destPos) {
-        final Predicate<Point> canPassThrough = p -> !world.isOccupied(p);
+        final Predicate<Point> canPassThrough = p -> !world.isOccupied(p) && world.withinBounds(p);
 
         final List<Point> nextPos = SINGLE_STEP
                 .computePath(super.getPosition(), destPos, canPassThrough,

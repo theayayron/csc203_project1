@@ -51,4 +51,11 @@ final class Point
 
       return deltaX * deltaX + deltaY * deltaY;
    }
+
+   public int manhattanDistance(Point p)
+   {
+      int deltaX = Math.abs(x - p.getX());
+      int deltaY = Math.abs(y - p.getY());
+      return deltaX + deltaY;
+   }
 }
