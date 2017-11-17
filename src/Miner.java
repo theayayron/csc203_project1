@@ -2,8 +2,10 @@ import processing.core.PImage;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.function.BiPredicate;
 
-public class Miner extends AbstractAnimatedEntity{
+public class Miner extends MovingEntity{
 
     public static final String MINER_KEY = "miner";
     private static final int MINER_NUM_PROPERTIES = 7;
@@ -130,7 +132,7 @@ public class Miner extends AbstractAnimatedEntity{
         miner.scheduleActions(scheduler, world, imageStore);
     }
 
-    private  boolean moveToNotFull(WorldModel world, Entity target, EventScheduler scheduler)
+    private boolean moveToNotFull(WorldModel world, Entity target, EventScheduler scheduler)
     {
         if (super.getPosition().adjacent(target.getPosition()))
         {
@@ -142,7 +144,7 @@ public class Miner extends AbstractAnimatedEntity{
         }
         else
         {
-            Point nextPos = this.nextPositionMiner(world, target.getPosition());
+            Point nextPos = this.nextPosition(world, target.getPosition());
 
             if (!super.getPosition().equals(nextPos))
             {
@@ -160,13 +162,14 @@ public class Miner extends AbstractAnimatedEntity{
 
     private boolean moveToFull(WorldModel world, Entity target, EventScheduler scheduler)
     {
+
         if (super.getPosition().adjacent(target.getPosition()))
         {
             return true;
         }
         else
         {
-            Point nextPos = this.nextPositionMiner(world, target.getPosition());
+            Point nextPos = this.nextPosition(world, target.getPosition());
 
             if (!super.getPosition().equals(nextPos))
             {
@@ -182,26 +185,6 @@ public class Miner extends AbstractAnimatedEntity{
         }
     }
 
-    private Point nextPositionMiner(WorldModel world, Point destPos)
-    {
-        int horiz = Integer.signum(destPos.getX() - super.getPosition().getX());
-        Point newPos = new Point(super.getPosition().getX() + horiz,
-                super.getPosition().getY());
-
-        if (horiz == 0 || world.isOccupied(newPos))
-        {
-            int vert = Integer.signum(destPos.getY() - super.getPosition().getY());
-            newPos = new Point(super.getPosition().getX(),
-                    super.getPosition().getY() + vert);
-
-            if (vert == 0 || world.isOccupied(newPos))
-            {
-                newPos = super.getPosition();
-            }
-        }
-
-        return newPos;
-    }
 
     @Override
     public <R> R accept(EntityVisitor<R> visitor) {

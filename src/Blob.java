@@ -2,8 +2,10 @@ import processing.core.PImage;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiPredicate;
+import java.util.function.Predicate;
 
-public class Blob extends AbstractAnimatedEntity{
+public class Blob extends MovingEntity{
 
     public Blob(String id, Point position, List<PImage> images,
                 int actionPeriod, int animationPeriod, int repeatCount) {
@@ -51,7 +53,7 @@ public class Blob extends AbstractAnimatedEntity{
         }
         else
         {
-            Point nextPos = this.nextPositionOreBlob(world, target.getPosition());
+            Point nextPos = this.nextPosition(world, target.getPosition());
 
             if (!super.getPosition().equals(nextPos))
             {
@@ -65,31 +67,6 @@ public class Blob extends AbstractAnimatedEntity{
             }
             return false;
         }
-    }
-
-    private Point nextPositionOreBlob(WorldModel world, Point destPos)
-    {
-        int horiz = Integer.signum(destPos.getX() - super.getPosition().getY());
-        Point newPos = new Point(super.getPosition().getX() + horiz,
-                super.getPosition().getY());
-
-        Optional<Entity> occupant = world.getOccupant(newPos);
-
-        if (horiz == 0 ||
-                (occupant.isPresent() && !(occupant.get().getClass().equals(Ore.class))))
-        {
-            int vert = Integer.signum(destPos.getY() - super.getPosition().getY());
-            newPos = new Point(super.getPosition().getX(), super.getPosition().getY() + vert);
-            occupant = world.getOccupant(newPos);
-
-            if (vert == 0 ||
-                    (occupant.isPresent() && !(occupant.get().getClass().equals(Ore.class))))
-            {
-                newPos = super.getPosition();
-            }
-        }
-
-        return newPos;
     }
 
     public <R> R accept(EntityVisitor<R> visitor) {
