@@ -82,4 +82,8 @@ public class Vein extends AbstractActiveEntity{
                 super.getActionPeriod());
     }
 
+    @Override
+    public <R> R accept(EntityVisitor<R> visitor) {
+        return visitor.visit(this);
+    }
 }

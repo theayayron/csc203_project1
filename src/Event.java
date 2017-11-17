@@ -24,9 +24,4 @@ final class Event
       return entity;
    }
 
-   //_public Entity getEntity()
-
-   //_public long getTime()
-
-   //_public Action getAction()
 }

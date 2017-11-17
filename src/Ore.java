@@ -62,4 +62,8 @@ public class Ore extends AbstractActiveEntity{
         blob.scheduleActions(scheduler, world, imageStore);
     }
 
+    @Override
+    public <R> R accept(EntityVisitor<R> visitor) {
+        return visitor.visit(this);
+    }
 }

@@ -34,5 +34,8 @@ public class Smith extends AbstractEntity{
        return new Smith(id, position, images);
     }
 
-
+    @Override
+    public <R> R accept(EntityVisitor<R> visitor) {
+        return visitor.visit(this);
+    }
 }

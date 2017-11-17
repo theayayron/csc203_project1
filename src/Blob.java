@@ -92,4 +92,8 @@ public class Blob extends AbstractAnimatedEntity{
         return newPos;
     }
 
+    public <R> R accept(EntityVisitor<R> visitor) {
+            return visitor.visit(this);
+    }
+
 }

@@ -37,4 +37,9 @@ public class Obstacle extends AbstractEntity{
     {
        return new Obstacle(id, position, images);
     }
+
+    @Override
+    public <R> R accept(EntityVisitor<R> visitor) {
+        return visitor.visit(this);
+    }
 }

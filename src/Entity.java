@@ -12,6 +12,8 @@ public interface Entity
 
    int getImageIndex();
 
+   <R> R accept(EntityVisitor<R> visitor);
+
    PImage getCurrentImage();
 
    String getID();

@@ -202,4 +202,9 @@ public class Miner extends AbstractAnimatedEntity{
 
         return newPos;
     }
+
+    @Override
+    public <R> R accept(EntityVisitor<R> visitor) {
+        return visitor.visit(this);
+    }
 }
