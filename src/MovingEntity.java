@@ -10,7 +10,7 @@ abstract class MovingEntity extends AbstractAnimatedEntity {
 
     private static final BiPredicate<Point, Point> WITHIN_REACH = (p1, p2) -> p1.adjacent(p2);
     private static final SingleStepPathingStrategy SINGLE_STEP = new SingleStepPathingStrategy();
-
+    private static final AStarPathingStrategy A_STAR = new AStarPathingStrategy();
 
     public MovingEntity(String id, Point position, List<PImage> images,
                         int actionPeriod, int animationPeriod, int repeatCount) {
@@ -20,7 +20,7 @@ abstract class MovingEntity extends AbstractAnimatedEntity {
     protected Point nextPosition(WorldModel world, Point destPos) {
         final Predicate<Point> canPassThrough = p -> canPassThrough(p, world); //!world.isOccupied(p) && world.withinBounds(p);
 
-        final List<Point> nextPos = SINGLE_STEP
+        final List<Point> nextPos = A_STAR//SINGLE_STEP
                 .computePath(super.getPosition(), destPos, canPassThrough,
                         WITHIN_REACH, PathingStrategy.CARDINAL_NEIGHBORS);
 

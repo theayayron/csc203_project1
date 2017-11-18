@@ -2,7 +2,6 @@ import java.util.*;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
@@ -11,7 +10,6 @@ public class AStarPathingStrategy implements PathingStrategy {
 
     private static final Comparator<WorldNode> byFScore = Comparator.comparing(WorldNode::getfScore);
     private static final Comparator<WorldNode> byGScore = Comparator.comparing(WorldNode::getgScore);
-
 
 
     @Override
@@ -25,12 +23,12 @@ public class AStarPathingStrategy implements PathingStrategy {
 
         // checks if it's on the list to be searched, updates
         // node in list if new path takes fewer steps
-        Predicate<WorldNode> notVisited = w ->
+        Predicate<WorldNode> notVisited = w -> //!closedList.contains(w);
         {
              if (nodesToSearch.contains(w))
                 for (WorldNode node : nodesToSearch) {
 
-                    if (node == w) {
+                    if (node.getPosition().equals(w.getPosition())) {
                         if (byGScore.compare(w, node) < 0) {
                             nodesToSearch.remove(node);
                             return true;
@@ -38,10 +36,8 @@ public class AStarPathingStrategy implements PathingStrategy {
                             return false;
                     }
                 }
-
-            return true;
-
-        }; //!closedList.contains(w);
+            return !closedList.contains(w);
+        };
 
         // add start point to queue
         nodesToSearch.add(new WorldNode (null, start, 0, 0));
@@ -49,21 +45,22 @@ public class AStarPathingStrategy implements PathingStrategy {
         // iterate through queue until all paths are evaluated
         while (!nodesToSearch.isEmpty())
         {
-            WorldNode currentNode = nodesToSearch.peek();
+            WorldNode currentNode = nodesToSearch.poll();
+            Point currentPosition = currentNode.getPosition();
 
-            if (withinReach.test(currentNode.getPosition(), end))
+            if (withinReach.test(currentPosition, end))
                 return buildPath(currentNode, closedList, path);
 
-            potentialNeighbors.apply(currentNode.getPosition())
+            potentialNeighbors.apply(currentPosition)
                     .filter(canPassThrough)
-                    .map(p -> new WorldNode(currentNode.getPosition(), p,
+                    .map(p -> new WorldNode(currentPosition, p,
                                             currentNode.getgScore() + 1,
-                                            currentNode.getPosition().manhattanDistance(end)))
+                                            p.manhattanDistance(end)))
 
                     .filter(notVisited)
                     .forEach(w -> nodesToSearch.add(w));
 
-            closedList.add(currentNode);
+            closedList.push(currentNode);
 
         }
 
@@ -71,32 +68,21 @@ public class AStarPathingStrategy implements PathingStrategy {
 
     }
 
-    private static List<Point> buildPath(WorldNode lastNode, List<WorldNode> closedList, LinkedList<Point> path)
+
+    private static List<Point> buildPath(WorldNode lastNode, LinkedList<WorldNode> closedList, LinkedList<Point> path)
     {
-        if (lastNode.getgScore() == 0)
-            return path;
-        else if (lastNode.getCameFrom() == closedList.get(0).getPosition())
-            path.add(closedList.get(0).getPosition());
 
-        WorldNode nextNode = closedList.remove(0);
-        return buildPath(nextNode, closedList, path);
+        for (WorldNode currNode : closedList) {
+            if(currNode.getgScore() == 0)
+                return path;
+
+            if (lastNode.getCameFrom().equals(currNode.getPosition())) {
+                path.push(currNode.getPosition());
+                lastNode = currNode;
+            }
+        }
+
+        return path;
     }
-
-//    private static List<WorldNode> getNeighbors(WorldNode currentNode, Point endPoint,
-//                                                Predicate<Point> canPassThrough,
-//                                                Predicate<WorldNode> notVisited,
-//                                                Function<Point, Stream<Point>> potentialNeighbors)
-//    {
-//         return potentialNeighbors.apply(currentNode.getPosition())
-//                    .filter(canPassThrough)
-//                    .map(p -> new WorldNode(currentNode.getPosition(),
-//                                        p,
-//                                        currentNode.getgScore() + 1,
-//                                        currentNode.getPosition().manhattanDistance(endPoint)))
-//
-//                    .filter(notVisited)
-//                    .forEach(w -> nodesToSearch.add());
-//    }
-
 
 }
