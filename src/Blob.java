@@ -69,6 +69,14 @@ public class Blob extends MovingEntity{
         }
     }
 
+    @Override
+    protected Boolean canPassThrough(Point p, WorldModel world) {
+        Optional<Entity> occupant = world.getOccupant(p);
+
+        return world.withinBounds(p) && (!occupant.isPresent() || occupant.get().accept(new OreVisitor()));
+
+    }
+
     public <R> R accept(EntityVisitor<R> visitor) {
             return visitor.visit(this);
     }

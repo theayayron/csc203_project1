@@ -18,7 +18,7 @@ abstract class MovingEntity extends AbstractAnimatedEntity {
     }
 
     protected Point nextPosition(WorldModel world, Point destPos) {
-        final Predicate<Point> canPassThrough = p -> !world.isOccupied(p) && world.withinBounds(p);
+        final Predicate<Point> canPassThrough = p -> canPassThrough(p, world); //!world.isOccupied(p) && world.withinBounds(p);
 
         final List<Point> nextPos = SINGLE_STEP
                 .computePath(super.getPosition(), destPos, canPassThrough,
@@ -29,5 +29,7 @@ abstract class MovingEntity extends AbstractAnimatedEntity {
 
         return nextPos.get(0);
     }
+
+    protected abstract Boolean canPassThrough(Point p, WorldModel world);
 
 }

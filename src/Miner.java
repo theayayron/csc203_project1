@@ -185,6 +185,10 @@ public class Miner extends MovingEntity{
         }
     }
 
+    @Override
+    protected Boolean canPassThrough(Point p, WorldModel world) {
+        return !world.isOccupied(p) && world.withinBounds(p);
+    }
 
     @Override
     public <R> R accept(EntityVisitor<R> visitor) {
