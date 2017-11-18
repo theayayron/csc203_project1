@@ -29,4 +29,19 @@ public class WorldNode {
     public int getfScore() {
         return fScore;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        WorldNode worldNode = (WorldNode) o;
+
+        return position != null ? position.equals(worldNode.position) : worldNode.position == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return position != null ? position.hashCode() : 0;
+    }
 }
