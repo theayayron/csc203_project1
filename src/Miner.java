@@ -2,8 +2,6 @@ import processing.core.PImage;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
-import java.util.function.BiPredicate;
 
 public class Miner extends MovingEntity{
 
