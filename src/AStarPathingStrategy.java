@@ -71,7 +71,7 @@ public class AStarPathingStrategy implements PathingStrategy {
 
     private static List<Point> buildPath(WorldNode lastNode, LinkedList<WorldNode> closedList, LinkedList<Point> path)
     {
-
+        path.push(lastNode.getPosition());
         for (WorldNode currNode : closedList) {
             if(currNode.getgScore() == 0)
                 return path;
