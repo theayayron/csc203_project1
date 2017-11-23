@@ -158,23 +158,23 @@ public final class VirtualWorld
    {
       for (Entity entity : world.getEntities())
       {
-         if (entity instanceof Miner) {
+         if (entity.accept(new MinerVisitor())) {
             Miner miner = (Miner) entity;
             miner.scheduleActions(scheduler, world, imageStore);
 
-         } else if (entity instanceof Ore) {
+         } else if (entity.accept(new OreVisitor())) {
             Ore ore = (Ore) entity;
             ore.scheduleActions(scheduler, world, imageStore);
 
-         } else if (entity instanceof Blob) {
+         } else if (entity.accept(new BlobVisitor())) {
             Blob blob = (Blob) entity;
             blob.scheduleActions(scheduler, world, imageStore);
 
-         } else if (entity instanceof Quake) {
+         } else if (entity.accept(new QuakeVisitor())) {
             Quake quake = (Quake) entity;
             quake.scheduleActions(scheduler, world, imageStore);
 
-         } else if (entity instanceof Vein) {
+         } else if (entity.accept(new VeinVisitor())) {
             Vein vein = (Vein) entity;
             vein.scheduleActions(scheduler, world, imageStore);
 

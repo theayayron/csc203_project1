@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 public class AStarPathingStrategy implements PathingStrategy {
 
     private static final Comparator<WorldNode> byFScore = Comparator.comparing(WorldNode::getfScore);
-    private static final Comparator<WorldNode> byGScore = Comparator.comparing(WorldNode::getgScore);
+    //private static final Comparator<WorldNode> byGScore = Comparator.comparing(WorldNode::getgScore);
 
 
     @Override
@@ -19,13 +19,16 @@ public class AStarPathingStrategy implements PathingStrategy {
 
         PriorityQueue<WorldNode> nodesToSearch = new PriorityQueue<>(byFScore);
         LinkedList<WorldNode> closedList = new LinkedList<>();
+        HashMap<Point, WorldNode> closedL = new HashMap<>();
         LinkedList<Point> path = new LinkedList<>();
 
         // checks if it's on the list to be searched, updates
         // node in list if new path takes fewer steps
-        Predicate<WorldNode> notVisited = w -> //!closedList.contains(w);
-        {
-             if (nodesToSearch.contains(w))
+        Predicate<WorldNode> notVisited = w -> !closedList.contains(w);
+                                               //closedL.get(w.getPosition()) == null;
+
+        /*{
+             if (.contains(w))
                 for (WorldNode node : nodesToSearch) {
 
                     if (node.getPosition().equals(w.getPosition())) {
@@ -37,7 +40,7 @@ public class AStarPathingStrategy implements PathingStrategy {
                     }
                 }
             return !closedList.contains(w);
-        };
+        };*/
 
         // add start point to queue
         nodesToSearch.add(new WorldNode (null, start, 0, 0));
@@ -46,14 +49,13 @@ public class AStarPathingStrategy implements PathingStrategy {
         while (!nodesToSearch.isEmpty())
         {
             WorldNode currentNode = nodesToSearch.poll();
-            Point currentPosition = currentNode.getPosition();
 
-            if (withinReach.test(currentPosition, end))
+            if (withinReach.test(currentNode.getPosition(), end))
                 return buildPath(currentNode, closedList, path);
 
-            potentialNeighbors.apply(currentPosition)
+            potentialNeighbors.apply(currentNode.getPosition())
                     .filter(canPassThrough)
-                    .map(p -> new WorldNode(currentPosition, p,
+                    .map(p -> new WorldNode(currentNode.getPosition(), p,
                                             currentNode.getgScore() + 1,
                                             p.manhattanDistance(end)))
 
@@ -61,6 +63,7 @@ public class AStarPathingStrategy implements PathingStrategy {
                     .forEach(w -> nodesToSearch.add(w));
 
             closedList.push(currentNode);
+            //closedL.put(currentNode.getPosition(), currentNode);
 
         }
 
@@ -68,10 +71,27 @@ public class AStarPathingStrategy implements PathingStrategy {
 
     }
 
+    private static List<Point> buildPath(WorldNode lastNode, HashMap<Point, WorldNode> closedL, LinkedList<Point> path)
+    {
+        WorldNode currentNode;
+        path.push(lastNode.getPosition());
+
+        while( lastNode.getgScore() != 0 )
+        {
+            currentNode = closedL.get(lastNode.getCameFrom());
+            path.push(currentNode.getPosition());
+            lastNode = currentNode;
+
+        }
+
+        return path;
+    }
+
 
     private static List<Point> buildPath(WorldNode lastNode, LinkedList<WorldNode> closedList, LinkedList<Point> path)
     {
         path.push(lastNode.getPosition());
+
         for (WorldNode currNode : closedList) {
             if(currNode.getgScore() == 0)
                 return path;
