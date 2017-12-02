@@ -67,6 +67,7 @@ public class Miner extends MovingEntity{
         return resourceCount >= resourceLimit;
     }
 
+    public boolean isEmtpy() { return resourceCount < 1;}
 
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
     {
@@ -117,7 +118,7 @@ public class Miner extends MovingEntity{
         return false;
     }
 
-    private void transformFull(WorldModel world, EventScheduler scheduler, ImageStore imageStore)
+    public void transformFull(WorldModel world, EventScheduler scheduler, ImageStore imageStore)
     {
         Miner miner = createMinerNotFull(super.getID(), resourceLimit,
                 super.getPosition(), super.getActionPeriod(),
@@ -181,6 +182,10 @@ public class Miner extends MovingEntity{
             }
             return false;
         }
+    }
+
+    public int getResourceCount() {
+        return resourceCount;
     }
 
     @Override

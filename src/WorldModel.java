@@ -1,3 +1,4 @@
+import org.omg.CORBA.INTERNAL;
 import processing.core.PImage;
 
 import java.util.*;
@@ -61,6 +62,56 @@ final class WorldModel
       }
 
       return nearestEntity(ofType, pos);
+   }
+
+   public Optional<Miner> findNearestMiner(Point pos)
+   {
+      List<Miner> ofType = new LinkedList<>();
+      for (Entity entity : entities)
+      {
+         if (entity.getClass().equals(Miner.class))
+         {
+            ofType.add((Miner) entity);
+         }
+      }
+
+      return nearestMiner(ofType, pos);
+   }
+
+   private static Optional<Miner> nearestMiner(List<Miner> miners, Point pos)
+   {
+      if (miners.isEmpty())
+      {
+         return Optional.empty();
+      }
+      else
+      {
+         Miner nearest = miners.get(0);
+         int nearestDistance;
+
+         if (nearest.isEmtpy())
+            nearestDistance = Integer.MAX_VALUE;
+         else
+            nearestDistance = nearest.getPosition().distanceSquared(pos);
+
+         for (Miner other : miners)
+         {
+            int otherDistance;
+
+            if (other.isEmtpy())
+               otherDistance = Integer.MAX_VALUE;
+            else
+               otherDistance = other.getPosition().distanceSquared(pos);
+
+            if (otherDistance < nearestDistance)
+            {
+               nearest = other;
+               nearestDistance = otherDistance;
+            }
+         }
+
+         return Optional.of(nearest);
+      }
    }
 
    private static Optional<Entity> nearestEntity(List<Entity> entities,

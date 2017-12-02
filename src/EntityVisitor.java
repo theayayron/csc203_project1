@@ -7,5 +7,6 @@ public interface EntityVisitor<R> {
     R visit(Quake quake);
     R visit(Smith smith);
     R visit(Vein vein);
+    R visit(Thief thief);
 
 }
