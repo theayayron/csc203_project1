@@ -5,13 +5,12 @@ import java.util.Optional;
 public class Thief extends MovingEntity {
 
     public static final String THIEF_KEY = "thief";
-    private static final int THIEF_NUM_PROPERTIES = 7;
+    private static final int THIEF_NUM_PROPERTIES = 6;
     private static final int THIEF_ID = 1;
     private static final int THIEF_COL = 2;
     private static final int THIEF_ROW = 3;
-    private static final int THIEF_LIMIT = 4;
-    private static final int THIEF_ACTION_PERIOD = 5;
-    private static final int THIEF_ANIMATION_PERIOD = 6;
+    private static final int THIEF_ACTION_PERIOD = 4;
+    private static final int THIEF_ANIMATION_PERIOD = 5;
 
     public Thief(String id, Point position, List<PImage> images, int actionPeriod, int animationPeriod, int repeatCount) {
         super(id, position, images, actionPeriod, animationPeriod, repeatCount);

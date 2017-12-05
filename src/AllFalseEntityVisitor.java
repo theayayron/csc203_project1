@@ -7,4 +7,5 @@ public class AllFalseEntityVisitor  implements EntityVisitor<Boolean> {
     public Boolean visit(Quake quake){ return false; }
     public Boolean visit(Smith smith){ return false; }
     public Boolean visit(Vein vein){ return false; }
+    public Boolean visit(Thief thief) { return false; }
 }
