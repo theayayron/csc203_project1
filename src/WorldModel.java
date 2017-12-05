@@ -147,6 +147,7 @@ final class WorldModel
    */
    public  void addEntity(Entity entity)
    {
+
       if (this.withinBounds(entity.getPosition()))
       {
          this.setOccupancyCell(entity.getPosition(), entity);

@@ -95,6 +95,6 @@ public class Thief extends MovingEntity {
 
     @Override
     public <R> R accept(EntityVisitor<R> visitor) {
-        return null;
+        return visitor.visit(this);
     }
 }
