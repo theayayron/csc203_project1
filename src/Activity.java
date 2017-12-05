@@ -44,6 +44,10 @@ public class Activity implements Action{
             vein.executeActivity(world, imageStore,
                     scheduler);
 
+        } else if(entity.accept(new ThiefVisitor())) {
+            Thief thief = (Thief) entity;
+            thief.executeActivity(world, imageStore,
+                    scheduler);
         } else {
             throw new UnsupportedOperationException(
                     String.format("executeActivityAction not supported for %s",

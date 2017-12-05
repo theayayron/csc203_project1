@@ -155,6 +155,8 @@ final class Functions
                return Smith.parseSmith(properties, world, imageStore);
             case Vein.VEIN_KEY:
                return Vein.parseVein(properties, world, imageStore);
+            case Thief.THIEF_KEY:
+               return Thief.parseThief(properties, world, imageStore);
          }
       }
 
