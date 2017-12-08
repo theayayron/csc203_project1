@@ -188,6 +188,10 @@ public class Miner extends MovingEntity{
         return resourceCount;
     }
 
+    public void makeGreedy() {
+        resourceLimit = resourceLimit * 3;
+    }
+
     @Override
     protected Boolean canPassThrough(Point p, WorldModel world) {
         return !world.isOccupied(p) && world.withinBounds(p);

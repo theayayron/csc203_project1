@@ -12,6 +12,7 @@ blob images/blob10.bmp 255 255 255 0
 blob images/blob11.bmp 255 255 255 0
 blob images/blob12.bmp 255 255 255 0
 grass images/grass.bmp
+grass_gold images/grass_gold.bmp
 miner images/miner1.bmp 252 252 252 0
 miner images/miner2.bmp 252 252 252 0
 miner images/miner3.bmp 252 252 252 0
@@ -29,7 +30,6 @@ thief images/thief1.bmp 255 255 255 0
 thief images/thief2.bmp 255 255 255 0
 thief images/thief3.bmp 255 255 255 0
 thief images/thief4.bmp 255 255 255 0
-thief images/thief5.bmp 255 255 255 0
 rocks images/rock.bmp
 vein images/vein.bmp
 background_default images/none.bmp

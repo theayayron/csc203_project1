@@ -109,6 +109,8 @@ final class WorldModel
                nearestDistance = otherDistance;
             }
          }
+         if (nearest.isEmtpy())
+            return Optional.empty();
 
          return Optional.of(nearest);
       }
@@ -238,6 +240,15 @@ final class WorldModel
 
       this.addEntity(entity);
    }
+
+   public void addWithoutCrash(Entity entity)
+   {
+      if (this.isOccupied(entity.getPosition()))
+         return;
+      else
+         this.addEntity(entity);
+   }
+
    //_public Optional<Entity> getOccupant(Point Pos)
    // move to WorldModel
    public Optional<Entity> getOccupant(Point pos)

@@ -60,20 +60,14 @@ public class Thief extends MovingEntity {
         return !world.isOccupied(p) && world.withinBounds(p);
     }
 
-    public static Thief createThief(Miner miner, ImageStore imageStore) {
-        return new
-                Thief(miner.getID(),
-                miner.getPosition(),
-                imageStore.getImageList(THIEF_KEY),
-                miner.getActionPeriod()/2,
-                miner.getAnimationPeriod()/2,
-                0);
-    }
-
-    private static Thief createThief(String id, Point position, int actionPeriod, int animationPeriod,
+    public static Thief createThief(String id, Point position, int actionPeriod, int animationPeriod,
                                             List<PImage> images)
     {
         return new Thief(id, position, images, actionPeriod, animationPeriod, 0);
+    }
+
+    public static Thief createThief(String id, Point position, List<PImage> images) {
+        return new Thief(id, position, images, THIEF_ACTION_PERIOD, THIEF_ANIMATION_PERIOD, 0);
     }
 
     public static boolean parseThief(String[] properties, WorldModel world,

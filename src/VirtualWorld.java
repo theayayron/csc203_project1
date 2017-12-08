@@ -1,5 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 import processing.core.*;
 
@@ -79,6 +81,32 @@ public final class VirtualWorld
       }
 
       view.drawViewport();
+   }
+
+   @Override
+   public void mouseClicked() {
+      Point pos = new Point(pmouseX/32 + view.getViewport().getCol(),
+              pmouseY/32 + view.getViewport().getRow());
+
+      Thief thief = Thief.createThief("thief",
+              pos, imageStore.getImageList(Thief.THIEF_KEY));
+
+      world.addWithoutCrash(thief);
+      if (world.getOccupant(pos).get().equals(thief))
+         thief.scheduleActions(scheduler, world, imageStore);
+
+      Background grass_gold = new Background("grass_gold",
+              imageStore.getImageList("grass_gold"));
+
+      List<Point> tilesToChange = pos.squareNeighbors(3);
+      for(Point p: tilesToChange)
+      {
+         world.setBackground(p, grass_gold);
+         Optional<Entity> possMiner = world.getOccupant(p);
+         if(possMiner.isPresent() && possMiner.get().accept(new MinerVisitor()))
+            ((Miner) possMiner.get()).makeGreedy();
+      }
+
    }
 
    public void keyPressed()

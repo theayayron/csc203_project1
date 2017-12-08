@@ -1,3 +1,6 @@
+import java.util.List;
+import java.util.LinkedList;
+
 final class Point
 {
    //private
@@ -57,5 +60,19 @@ final class Point
       int deltaX = Math.abs(x - p.getX());
       int deltaY = Math.abs(y - p.getY());
       return deltaX + deltaY;
+   }
+
+   public List<Point> squareNeighbors(int radius) {
+      LinkedList<Point> points = new LinkedList<Point>();
+      int maxX = x + radius;
+      int minY = y - radius;
+      for (int minX = x - radius; minX <= maxX; minX++)
+      {
+         for (int maxY = y + radius; maxY >= minY; maxY--)
+         {
+            points.add(new Point(minX, maxY));
+         }
+      }
+      return points;
    }
 }
