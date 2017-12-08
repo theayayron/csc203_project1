@@ -188,8 +188,18 @@ public class Miner extends MovingEntity{
         return resourceCount;
     }
 
-    public void makeGreedy() {
+    public void makeGreedy(WorldModel world, EventScheduler scheduler, ImageStore imageStore) {
         resourceLimit = resourceLimit * 3;
+        Miner miner = createMinerNotFull(super.getID(), resourceLimit,
+                super.getPosition(), super.getActionPeriod(),
+                super.getAnimationPeriod(), imageStore.getImageList("greedy_miner"));
+
+        world.removeEntity(this);
+        scheduler.unscheduleAllEvents(this);
+
+        world.addEntity(miner);
+        miner.scheduleActions(scheduler, world, imageStore);
+
     }
 
     @Override

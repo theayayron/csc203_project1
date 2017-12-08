@@ -104,7 +104,7 @@ public final class VirtualWorld
          world.setBackground(p, grass_gold);
          Optional<Entity> possMiner = world.getOccupant(p);
          if(possMiner.isPresent() && possMiner.get().accept(new MinerVisitor()))
-            ((Miner) possMiner.get()).makeGreedy();
+            ((Miner) possMiner.get()).makeGreedy(world, scheduler, imageStore);
       }
 
    }
